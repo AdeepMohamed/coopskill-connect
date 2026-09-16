@@ -73,9 +73,9 @@ export default function Sidebar() {
   const navItems = NAV_BY_ROLE[role] || TRAINEE_NAV;
 
   return (
-    <aside className="w-72 flex-shrink-0 bg-slate-900 border-r border-slate-800 flex flex-col h-screen overflow-hidden selection:bg-brand-500 selection:text-white">
+    <aside className="bg-slate-900 flex z-50 transition-all selection:bg-brand-500 selection:text-white w-full h-16 flex-row fixed bottom-0 left-0 right-0 border-t border-slate-800 md:w-72 md:h-screen md:flex-col md:relative md:border-r md:border-t-0 md:border-slate-800 flex-shrink-0">
       {/* Brand & Logo */}
-      <div className="p-6 border-b border-slate-800">
+      <div className="hidden md:block p-6 border-b border-slate-800">
         <div className="flex items-center gap-3 mb-6">
           <div className="w-10 h-10 rounded-xl bg-brand-600 flex items-center justify-center shadow-lg shadow-brand-600/20">
             <Network className="w-6 h-6 text-white" />
@@ -104,15 +104,15 @@ export default function Sidebar() {
       </div>
 
       {/* Navigation */}
-      <nav className="flex-1 overflow-y-auto p-4 space-y-1 custom-scrollbar">
-        <div className="px-3 mb-2 text-xs font-bold text-slate-500 uppercase tracking-widest">Main Menu</div>
+      <nav className="flex-1 flex flex-row md:flex-col overflow-x-auto md:overflow-y-auto p-2 md:p-4 space-x-2 md:space-x-0 md:space-y-1 custom-scrollbar items-center md:items-stretch justify-around md:justify-start">
+        <div className="hidden md:block px-3 mb-2 text-xs font-bold text-slate-500 uppercase tracking-widest">Main Menu</div>
         {navItems.map(item => {
           const isActive = pathname === item.href;
           return (
             <Link
               key={item.href}
               href={item.href}
-              className={`flex items-center gap-3 px-3 py-2.5 rounded-xl text-sm font-medium transition-all duration-200 group ${
+              className={`flex items-center gap-1 md:gap-3 px-3 py-2 md:py-2.5 rounded-xl text-xs md:text-sm font-medium transition-all duration-200 group flex-col md:flex-row justify-center md:justify-start min-w-[64px] md:min-w-0 ${
                 isActive 
                   ? 'bg-brand-600 text-white shadow-md shadow-brand-600/20' 
                   : 'text-slate-400 hover:text-slate-100 hover:bg-slate-800'
@@ -121,18 +121,18 @@ export default function Sidebar() {
               <div className={isActive ? 'text-white' : 'text-slate-500 group-hover:text-slate-300 transition-colors'}>
                 {item.icon}
               </div>
-              <span className="flex-1">
+              <span className="hidden md:block flex-1">
                 {('key' in item) ? t(lang, (item as {key: string}).key as Parameters<typeof t>[1]) : (item as any).label}
               </span>
-              {isActive && <ChevronRight className="w-4 h-4 opacity-70" />}
+              {isActive && <ChevronRight className="hidden md:block w-4 h-4 opacity-70" />}
             </Link>
           );
         })}
         
-        <div className="pt-6 pb-2 px-3 text-xs font-bold text-slate-500 uppercase tracking-widest">System</div>
+        <div className="hidden md:block pt-6 pb-2 px-3 text-xs font-bold text-slate-500 uppercase tracking-widest">System</div>
         <Link
           href="/dashboard/settings"
-          className={`flex items-center gap-3 px-3 py-2.5 rounded-xl text-sm font-medium transition-all duration-200 group ${
+          className={`flex items-center gap-1 md:gap-3 px-3 py-2 md:py-2.5 rounded-xl text-xs md:text-sm font-medium transition-all duration-200 group flex-col md:flex-row justify-center md:justify-start min-w-[64px] md:min-w-0 ${
             pathname === '/dashboard/settings' 
               ? 'bg-brand-600 text-white shadow-md shadow-brand-600/20' 
               : 'text-slate-400 hover:text-slate-100 hover:bg-slate-800'
