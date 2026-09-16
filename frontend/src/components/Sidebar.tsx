@@ -122,7 +122,7 @@ export default function Sidebar() {
                 {item.icon}
               </div>
               <span className="flex-1">
-                {('key' in item) ? t(lang, (item as {key: string}).key as Parameters<typeof t>[1]) : item.label}
+                {('key' in item) ? t(lang, (item as {key: string}).key as Parameters<typeof t>[1]) : (item as any).label}
               </span>
               {isActive && <ChevronRight className="w-4 h-4 opacity-70" />}
             </Link>

@@ -17,7 +17,7 @@ const DEMO_CERTS = [
 
 export default function CertificatesPage() {
   const [verifyInput, setVerifyInput] = useState('');
-  const [verifyResult, setVerifyResult] = useState<Record<string, unknown> | null>(null);
+  const [verifyResult, setVerifyResult] = useState<any>(null);
   const [verifying, setVerifying] = useState(false);
   const [selectedCert, setSelectedCert] = useState<typeof DEMO_CERTS[0] | null>(null);
   const [downloadingId, setDownloadingId] = useState<string | null>(null);

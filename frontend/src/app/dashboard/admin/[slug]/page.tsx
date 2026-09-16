@@ -114,7 +114,7 @@ export default function AdminPlaceholderPage() {
                 <div className="flex items-center gap-1.5 text-orange-500"><Award className="w-4 h-4" /> {course.rating}</div>
               </div>
               
-              <button onClick={() => alert(`Opening management console for ${course.name}...`)} className="w-full py-2 bg-slate-50 hover:bg-slate-100 text-slate-700 font-bold text-sm rounded-xl border border-slate-200 transition-colors">
+              <button onClick={() => alert(`Opening management console for ${course.title}...`)} className="w-full py-2 bg-slate-50 hover:bg-slate-100 text-slate-700 font-bold text-sm rounded-xl border border-slate-200 transition-colors">
                 Manage Course
               </button>
             </div>

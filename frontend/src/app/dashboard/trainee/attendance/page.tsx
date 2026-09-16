@@ -64,7 +64,7 @@ export default function AttendancePage() {
     await new Promise(r => setTimeout(r, 1500));
 
     try {
-      let res;
+      let res: any;
       if (user) {
         res = await recordQRAttendance(user.user_id, courseId);
       }
