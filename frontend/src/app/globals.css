@@ -94,3 +94,10 @@ body {
     @apply h-full rounded-full transition-all duration-500;
   }
 }
+
+/* Push dashboard main content below the fixed mobile header */
+@media (max-width: 768px) {
+  .flex-1.overflow-y-auto {
+    padding-top: 4rem; /* Accounts for h-16 (4rem) mobile header */
+  }
+}

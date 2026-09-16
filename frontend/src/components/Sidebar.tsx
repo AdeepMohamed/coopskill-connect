@@ -1,10 +1,11 @@
 'use client';
+import { useState } from 'react';
 import Link from 'next/link';
 import { usePathname } from 'next/navigation';
 import {
   GraduationCap, LayoutDashboard, BookOpen, QrCode, ClipboardList,
   Award, Bot, Briefcase, User, Wifi, LogOut, ChevronRight,
-  Building2, BarChart3, Users, Network
+  Building2, BarChart3, Users, Network, Menu, X
 } from 'lucide-react';
 import { useApp } from '@/lib/context';
 import { t, Language } from '@/lib/i18n';
@@ -68,23 +69,52 @@ const ROLE_ICONS: Record<string, React.ReactNode> = {
 
 export default function Sidebar() {
   const { user, logout, lang, setLang } = useApp();
+  const [mobileOpen, setMobileOpen] = useState(false);
   const pathname = usePathname();
   const role = user?.role || 'trainee';
   const navItems = NAV_BY_ROLE[role] || TRAINEE_NAV;
 
   return (
-    <aside className="bg-slate-900 flex z-50 transition-all selection:bg-brand-500 selection:text-white w-full h-16 flex-row fixed bottom-0 left-0 right-0 border-t border-slate-800 md:w-72 md:h-screen md:flex-col md:relative md:border-r md:border-t-0 md:border-slate-800 flex-shrink-0">
-      {/* Brand & Logo */}
-      <div className="hidden md:block p-6 border-b border-slate-800">
-        <div className="flex items-center gap-3 mb-6">
-          <div className="w-10 h-10 rounded-xl bg-brand-600 flex items-center justify-center shadow-lg shadow-brand-600/20">
-            <Network className="w-6 h-6 text-white" />
+    <>
+      {/* Mobile Top Header */}
+      <div className="md:hidden fixed top-0 left-0 right-0 h-16 bg-slate-900 border-b border-slate-800 flex items-center justify-between px-4 z-40 shadow-sm">
+        <div className="flex items-center gap-2">
+          <div className="w-8 h-8 rounded-lg bg-brand-600 flex items-center justify-center">
+            <Network className="w-5 h-5 text-white" />
           </div>
-          <div>
-            <div className="font-bold text-white tracking-tight">CoopSkill Connect</div>
-            <div className="text-[10px] font-semibold tracking-widest text-slate-400 uppercase">NCCT Dashboard</div>
-          </div>
+          <span className="font-bold text-white tracking-tight">CoopSkill Connect</span>
         </div>
+        <button onClick={() => setMobileOpen(true)} className="p-2 -mr-2 text-slate-300 hover:text-white">
+          <Menu className="w-6 h-6" />
+        </button>
+      </div>
+
+      {/* Mobile Backdrop */}
+      {mobileOpen && (
+        <div 
+          className="md:hidden fixed inset-0 bg-black/60 z-40 backdrop-blur-sm transition-opacity"
+          onClick={() => setMobileOpen(false)}
+        />
+      )}
+
+      {/* Sidebar Drawer */}
+      <aside className={`fixed inset-y-0 left-0 z-50 w-72 bg-slate-900 border-r border-slate-800 flex flex-col h-screen overflow-hidden selection:bg-brand-500 selection:text-white transition-transform duration-300 transform md:relative md:translate-x-0 ${mobileOpen ? 'translate-x-0 shadow-2xl' : '-translate-x-full'}`}>
+        {/* Brand & Logo */}
+        <div className="p-6 border-b border-slate-800">
+          <div className="flex items-center justify-between mb-6">
+            <div className="flex items-center gap-3">
+              <div className="w-10 h-10 rounded-xl bg-brand-600 flex items-center justify-center shadow-lg shadow-brand-600/20">
+                <Network className="w-6 h-6 text-white" />
+              </div>
+              <div>
+                <div className="font-bold text-white tracking-tight">CoopSkill Connect</div>
+                <div className="text-[10px] font-semibold tracking-widest text-slate-400 uppercase">NCCT Dashboard</div>
+              </div>
+            </div>
+            <button onClick={() => setMobileOpen(false)} className="md:hidden p-1 text-slate-400 hover:text-white transition-colors">
+              <X className="w-5 h-5" />
+            </button>
+          </div>
 
         {/* Language Selector */}
         <div className="relative">
@@ -104,15 +134,16 @@ export default function Sidebar() {
       </div>
 
       {/* Navigation */}
-      <nav className="flex-1 flex flex-row md:flex-col overflow-x-auto md:overflow-y-auto p-2 md:p-4 space-x-2 md:space-x-0 md:space-y-1 custom-scrollbar items-center md:items-stretch justify-around md:justify-start">
-        <div className="hidden md:block px-3 mb-2 text-xs font-bold text-slate-500 uppercase tracking-widest">Main Menu</div>
+      <nav className="flex-1 overflow-y-auto p-4 space-y-1 custom-scrollbar">
+        <div className="px-3 mb-2 text-xs font-bold text-slate-500 uppercase tracking-widest">Main Menu</div>
         {navItems.map(item => {
           const isActive = pathname === item.href;
           return (
             <Link
               key={item.href}
               href={item.href}
-              className={`flex items-center gap-1 md:gap-3 px-3 py-2 md:py-2.5 rounded-xl text-xs md:text-sm font-medium transition-all duration-200 group flex-col md:flex-row justify-center md:justify-start min-w-[64px] md:min-w-0 ${
+              onClick={() => setMobileOpen(false)}
+              className={`flex items-center gap-3 px-3 py-2.5 rounded-xl text-sm font-medium transition-all duration-200 group ${
                 isActive 
                   ? 'bg-brand-600 text-white shadow-md shadow-brand-600/20' 
                   : 'text-slate-400 hover:text-slate-100 hover:bg-slate-800'
@@ -121,18 +152,19 @@ export default function Sidebar() {
               <div className={isActive ? 'text-white' : 'text-slate-500 group-hover:text-slate-300 transition-colors'}>
                 {item.icon}
               </div>
-              <span className="hidden md:block flex-1">
+              <span className="flex-1">
                 {('key' in item) ? t(lang, (item as {key: string}).key as Parameters<typeof t>[1]) : (item as any).label}
               </span>
-              {isActive && <ChevronRight className="hidden md:block w-4 h-4 opacity-70" />}
+              {isActive && <ChevronRight className="w-4 h-4 opacity-70" />}
             </Link>
           );
         })}
         
-        <div className="hidden md:block pt-6 pb-2 px-3 text-xs font-bold text-slate-500 uppercase tracking-widest">System</div>
+        <div className="pt-6 pb-2 px-3 text-xs font-bold text-slate-500 uppercase tracking-widest">System</div>
         <Link
           href="/dashboard/settings"
-          className={`flex items-center gap-1 md:gap-3 px-3 py-2 md:py-2.5 rounded-xl text-xs md:text-sm font-medium transition-all duration-200 group flex-col md:flex-row justify-center md:justify-start min-w-[64px] md:min-w-0 ${
+          onClick={() => setMobileOpen(false)}
+          className={`flex items-center gap-3 px-3 py-2.5 rounded-xl text-sm font-medium transition-all duration-200 group ${
             pathname === '/dashboard/settings' 
               ? 'bg-brand-600 text-white shadow-md shadow-brand-600/20' 
               : 'text-slate-400 hover:text-slate-100 hover:bg-slate-800'
@@ -156,7 +188,7 @@ export default function Sidebar() {
             <div className="text-[11px] font-semibold text-brand-400 uppercase tracking-wider truncate">{ROLE_LABELS[role]}</div>
           </div>
           <button
-            onClick={logout}
+            onClick={() => { logout(); setMobileOpen(false); }}
             className="p-2 rounded-xl text-slate-400 hover:text-red-400 hover:bg-red-400/10 transition-colors"
             title={t(lang, 'logout')}
           >
@@ -165,5 +197,6 @@ export default function Sidebar() {
         </div>
       </div>
     </aside>
+    </>
   );
 }
