@@ -143,7 +143,7 @@ export default function AIAdvisorPage() {
                           <span key={s} className="badge badge-amber text-[10px]">⚠ {s}</span>
                         ))}
                       </div>
-                      <div className="flex items-center justify-between">
+                      <div className="flex flex-col md:flex-row md:items-center justify-between gap-4 md:gap-0 items-start md:items-center">
                         <div className="text-xs text-slate-500">
                           📚 Recommended: <span className="font-medium text-slate-700">{path.recommended_course}</span>
                         </div>

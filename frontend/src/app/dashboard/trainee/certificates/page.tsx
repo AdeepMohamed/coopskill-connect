@@ -138,13 +138,13 @@ export default function CertificatesPage() {
               {/* Certificate Detail Modal */}
               {selectedCert ? (
                 <div>
-                  <div className="flex items-center justify-between mb-3">
+                  <div className="flex flex-col md:flex-row md:items-center justify-between gap-4 md:gap-0 items-start md:items-center mb-3">
                     <h3 className="font-bold text-slate-800">Certificate Preview</h3>
                     <button onClick={() => setSelectedCert(null)} className="p-1 hover:bg-slate-100 rounded">
                       <X className="w-4 h-4 text-slate-500" />
                     </button>
                   </div>
-                  <div className="certificate-card p-8 text-center animate-slide-up">
+                  <div className="certificate-card p-4 md:p-8 text-center animate-slide-up">
                     <div className="flex justify-center mb-5">
                       <div className="w-16 h-16 rounded-full flex items-center justify-center" style={{ backgroundColor: '#1b4f8a' }}>
                         <Award className="w-8 h-8 text-white" />

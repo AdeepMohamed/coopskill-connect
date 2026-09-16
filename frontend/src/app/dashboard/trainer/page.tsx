@@ -50,10 +50,10 @@ export default function TrainerDashboard() {
       <Sidebar />
       <div className="flex-1 overflow-y-auto">
         {/* Header */}
-        <header className="sticky top-0 z-30 bg-white/80 backdrop-blur-md border-b border-slate-200 px-8 py-5 flex items-center justify-between">
+        <header className="sticky top-0 z-30 bg-white/80 backdrop-blur-md border-b border-slate-200 px-4 md:px-8 py-5 flex flex-col md:flex-row md:items-center justify-between gap-4 md:gap-0 items-start md:items-center">
           <div>
             <h1 className="text-2xl font-extrabold text-slate-900 tracking-tight">👨‍🏫 Trainer Dashboard</h1>
-            <div className="flex items-center gap-3 mt-1 text-sm font-medium text-slate-500">
+            <div className="flex flex-wrap items-center gap-2 md:gap-3 mt-2 md:mt-1 text-sm font-medium text-slate-500">
               <span className="flex items-center gap-1.5 text-brand-600 bg-brand-50 px-2 py-0.5 rounded-md"><BookOpen className="w-3.5 h-3.5"/> Dr. Arun Sharma</span>
               <span className="flex items-center gap-1.5"><Users className="w-3.5 h-3.5"/> Senior Faculty</span>
               <span className="flex items-center gap-1.5"><CheckCircle className="w-3.5 h-3.5"/> RICM Chennai</span>
@@ -66,7 +66,7 @@ export default function TrainerDashboard() {
           </div>
         </header>
 
-        <main className="p-8 max-w-7xl mx-auto">
+        <main className="p-4 md:p-4 md:p-8 max-w-7xl mx-auto">
           {/* Metrics Row */}
           <div className="grid sm:grid-cols-2 lg:grid-cols-4 gap-6 mb-8">
             <StatCard value={BATCH.trainees} label="Enrolled Trainees" colorClass="bg-blue-50 text-blue-600" icon={Users} href="/dashboard/trainer/batches" />
@@ -75,10 +75,10 @@ export default function TrainerDashboard() {
             <StatCard value={2} label="Pending Assessments" colorClass="bg-purple-50 text-purple-600" icon={BookOpen} href="/dashboard/trainer/assessments" />
           </div>
 
-          <div className="grid lg:grid-cols-3 gap-8">
+          <div className="grid lg:grid-cols-3 gap-4 md:p-8">
             {/* Left Column (Current Batch Focus) */}
             <div className="lg:col-span-1 space-y-8">
-              <div className="bg-white border border-slate-200 rounded-3xl p-6 lg:p-8 shadow-sm">
+              <div className="bg-white border border-slate-200 rounded-3xl p-6 lg:p-4 md:p-8 shadow-sm">
                 <h2 className="text-xl font-bold text-slate-900 mb-6 flex items-center gap-3">
                   <div className="p-2 bg-brand-100 rounded-lg"><Users className="w-5 h-5 text-brand-700"/></div>
                   Current Batch
@@ -116,8 +116,8 @@ export default function TrainerDashboard() {
 
             {/* Right Column (Trainee Progress Table) */}
             <div className="lg:col-span-2">
-              <div className="bg-white border border-slate-200 rounded-3xl p-6 lg:p-8 shadow-sm h-full">
-                <div className="flex items-center justify-between mb-6">
+              <div className="bg-white border border-slate-200 rounded-3xl p-6 lg:p-4 md:p-8 shadow-sm h-full">
+                <div className="flex flex-col md:flex-row md:items-center justify-between gap-4 md:gap-0 items-start md:items-center mb-6">
                   <h2 className="text-xl font-bold text-slate-900">Trainee Progress Overview</h2>
                   <Link href="/dashboard/trainer/batches" className="text-sm font-semibold text-brand-600 hover:text-brand-800">View All →</Link>
                 </div>

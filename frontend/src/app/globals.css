@@ -99,5 +99,6 @@ body {
 @media (max-width: 768px) {
   .flex-1.overflow-y-auto {
     padding-top: 4rem; /* Accounts for h-16 (4rem) mobile header */
+    overflow-x: hidden; /* Prevent horizontal scrolling entirely */
   }
 }

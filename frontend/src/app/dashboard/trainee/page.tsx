@@ -157,10 +157,10 @@ export default function TraineeDashboard() {
       <Sidebar />
       <div className="flex-1 overflow-y-auto">
         {/* Header */}
-        <header className="sticky top-0 z-30 bg-white/80 backdrop-blur-md border-b border-slate-200 px-8 py-5 flex items-center justify-between">
+        <header className="sticky top-0 z-30 bg-white/80 backdrop-blur-md border-b border-slate-200 px-4 md:px-8 py-5 flex flex-col md:flex-row md:items-center justify-between gap-4 md:gap-0 items-start md:items-center">
           <div>
             <h1 className="text-2xl font-extrabold text-slate-900 tracking-tight">{greeting}, {data.trainee.name}</h1>
-            <div className="flex items-center gap-3 mt-1 text-sm font-medium text-slate-500">
+            <div className="flex flex-wrap items-center gap-2 md:gap-3 mt-2 md:mt-1 text-sm font-medium text-slate-500">
               <span className="flex items-center gap-1.5 text-brand-600 bg-brand-50 px-2 py-0.5 rounded-md"><BookOpen className="w-3.5 h-3.5"/> {data.trainee.trainee_id}</span>
               <span className="flex items-center gap-1.5"><Building2 className="w-3.5 h-3.5"/> {data.trainee.institution_name || 'NCCT'}</span>
               <span className="flex items-center gap-1.5"><MapPin className="w-3.5 h-3.5"/> {data.trainee.location}</span>
@@ -185,7 +185,7 @@ export default function TraineeDashboard() {
           </div>
         </header>
 
-        <main className="p-8 max-w-7xl mx-auto">
+        <main className="p-4 md:p-4 md:p-8 max-w-7xl mx-auto">
           {/* Metrics */}
           <div className="grid sm:grid-cols-2 xl:grid-cols-5 gap-6 mb-8">
             <StatCard value={`${data.learning_progress}%`} label={t(lang, 'learningProgress')} subLabel={data.current_course?.title} colorClass="bg-brand-50 text-brand-600" icon={BookOpen} href="/dashboard/trainee/learning" />
@@ -195,16 +195,16 @@ export default function TraineeDashboard() {
             <StatCard value={data.job_matches_count} label={t(lang, 'jobMatches')} colorClass="bg-blue-50 text-blue-600" icon={Briefcase} href="/dashboard/trainee/employment" />
           </div>
 
-          <div className="grid xl:grid-cols-3 gap-8">
+          <div className="grid xl:grid-cols-3 gap-4 md:p-8">
             {/* Main Content Column */}
             <div className="xl:col-span-2 space-y-8">
               
               {/* Current Course Widget */}
               {data.current_course && (
-                <div className="bg-white border border-slate-200 rounded-3xl p-6 lg:p-8 shadow-sm relative overflow-hidden">
+                <div className="bg-white border border-slate-200 rounded-3xl p-6 lg:p-4 md:p-8 shadow-sm relative overflow-hidden">
                   <div className="absolute top-0 right-0 w-64 h-64 bg-brand-50 rounded-full blur-3xl opacity-60 -mr-20 -mt-20 pointer-events-none"></div>
                   
-                  <div className="relative z-10 flex items-center justify-between mb-6">
+                  <div className="relative z-10 flex flex-col md:flex-row md:items-center justify-between gap-4 md:gap-0 items-start md:items-center mb-6">
                     <h2 className="text-xl font-bold text-slate-900 flex items-center gap-3">
                       <div className="p-2 bg-brand-100 rounded-lg"><BookOpen className="w-5 h-5 text-brand-700"/></div>
                       Continue Learning
@@ -242,10 +242,10 @@ export default function TraineeDashboard() {
 
               {/* Gemini AI Advisor Widget */}
               {data.latest_ai_recommendation && (
-                <div className="bg-white border-2 border-purple-100 rounded-3xl p-6 lg:p-8 shadow-sm relative overflow-hidden">
+                <div className="bg-white border-2 border-purple-100 rounded-3xl p-6 lg:p-4 md:p-8 shadow-sm relative overflow-hidden">
                   <div className="absolute -bottom-20 -right-20 w-80 h-80 bg-purple-50 rounded-full blur-3xl pointer-events-none"></div>
                   
-                  <div className="relative z-10 flex items-center justify-between mb-6">
+                  <div className="relative z-10 flex flex-col md:flex-row md:items-center justify-between gap-4 md:gap-0 items-start md:items-center mb-6">
                     <h2 className="text-xl font-bold text-slate-900 flex items-center gap-3">
                       <div className="p-2 bg-purple-100 rounded-lg"><Bot className="w-5 h-5 text-purple-700"/></div>
                       Gemini Career Advisor
@@ -290,7 +290,7 @@ export default function TraineeDashboard() {
               
               {/* Skills */}
               <div className="bg-white border border-slate-200 rounded-3xl p-6 shadow-sm">
-                <div className="flex items-center justify-between mb-6">
+                <div className="flex flex-col md:flex-row md:items-center justify-between gap-4 md:gap-0 items-start md:items-center mb-6">
                   <h2 className="text-lg font-bold text-slate-900">Skill Profile</h2>
                   <Link href="/dashboard/trainee/profile" className="text-sm font-semibold text-brand-600">Edit</Link>
                 </div>

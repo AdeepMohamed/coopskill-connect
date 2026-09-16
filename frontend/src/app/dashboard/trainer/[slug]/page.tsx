@@ -60,11 +60,11 @@ export default function TrainerPlaceholderPage() {
               <div className="text-xs font-mono text-slate-500 mb-4">{batch.code}</div>
               
               <div className="space-y-3 mb-6">
-                <div className="flex items-center justify-between text-sm">
+                <div className="flex flex-col md:flex-row md:items-center justify-between gap-4 md:gap-0 items-start md:items-center text-sm">
                   <span className="text-slate-500 flex items-center gap-1.5"><Calendar className="w-4 h-4"/> Started</span>
                   <span className="font-semibold text-slate-700">{batch.start}</span>
                 </div>
-                <div className="flex items-center justify-between text-sm">
+                <div className="flex flex-col md:flex-row md:items-center justify-between gap-4 md:gap-0 items-start md:items-center text-sm">
                   <span className="text-slate-500 flex items-center gap-1.5"><Users className="w-4 h-4"/> Trainees</span>
                   <span className="font-semibold text-slate-700">{batch.trainees} Enrolled</span>
                 </div>
@@ -193,7 +193,7 @@ export default function TrainerPlaceholderPage() {
     <div className="flex h-screen overflow-hidden bg-slate-50 font-sans">
       <Sidebar />
       <div className="flex-1 overflow-y-auto relative">
-        <header className="sticky top-0 z-30 bg-white/80 backdrop-blur-md border-b border-slate-200 px-8 py-5 flex items-center justify-between">
+        <header className="sticky top-0 z-30 bg-white/80 backdrop-blur-md border-b border-slate-200 px-4 md:px-8 py-5 flex flex-col md:flex-row md:items-center justify-between gap-4 md:gap-0 items-start md:items-center">
           <div>
             <h1 className="text-2xl font-extrabold text-slate-900 tracking-tight capitalize">{pageName}</h1>
             <div className="text-sm font-medium text-slate-500 mt-1 flex items-center gap-2">
@@ -202,7 +202,7 @@ export default function TrainerPlaceholderPage() {
           </div>
         </header>
 
-        <main className="p-8 max-w-7xl mx-auto space-y-6">
+        <main className="p-4 md:p-4 md:p-8 max-w-7xl mx-auto space-y-6">
           {renderContent()}
         </main>
       </div>
@@ -218,7 +218,7 @@ export default function TrainerPlaceholderPage() {
             </button>
             
             {activeModal === 'batchDetails' && selectedBatch && (
-              <div className="p-8">
+              <div className="p-4 md:p-8">
                 <div className="w-12 h-12 bg-blue-50 text-blue-600 rounded-xl flex items-center justify-center mb-4">
                   <ClipboardList className="w-6 h-6" />
                 </div>
@@ -249,7 +249,7 @@ export default function TrainerPlaceholderPage() {
             )}
 
             {activeModal === 'qrCode' && (
-              <div className="p-8 text-center">
+              <div className="p-4 md:p-4 md:p-8 text-center">
                 <h2 className="text-xl font-bold text-slate-900 mb-2">Attendance Scan</h2>
                 <p className="text-sm text-slate-500 mb-6">Ask trainees to scan this code using their mobile app.</p>
                 

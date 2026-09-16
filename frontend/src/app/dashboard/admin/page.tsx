@@ -83,7 +83,7 @@ export default function AdminDashboard() {
       <Sidebar />
       <div className="flex-1 overflow-y-auto">
         {/* Header */}
-        <header className="sticky top-0 z-30 bg-white/80 backdrop-blur-md border-b border-slate-200 px-8 py-5 flex items-center justify-between">
+        <header className="sticky top-0 z-30 bg-white/80 backdrop-blur-md border-b border-slate-200 px-4 md:px-8 py-5 flex flex-col md:flex-row md:items-center justify-between gap-4 md:gap-0 items-start md:items-center">
           <div>
             <h1 className="text-2xl font-extrabold text-slate-900 tracking-tight">NCCT Admin Dashboard</h1>
             <div className="text-sm font-medium text-slate-500 mt-1">National Council for Cooperative Training | Ministry of Cooperation</div>
@@ -99,7 +99,7 @@ export default function AdminDashboard() {
           </div>
         </header>
 
-        <main className="p-8 max-w-[1600px] mx-auto space-y-8">
+        <main className="p-4 md:p-4 md:p-8 max-w-[1600px] mx-auto space-y-8">
           
           {/* Stat Cards Row */}
           <div className="grid sm:grid-cols-2 lg:grid-cols-5 gap-6">
@@ -114,7 +114,7 @@ export default function AdminDashboard() {
           <div className="grid lg:grid-cols-2 gap-6">
             {/* Monthly Registrations */}
             <div className="bg-white border border-slate-200 rounded-3xl p-6 shadow-sm">
-              <div className="flex items-center justify-between mb-6">
+              <div className="flex flex-col md:flex-row md:items-center justify-between gap-4 md:gap-0 items-start md:items-center mb-6">
                 <h2 className="text-lg font-bold text-slate-900">Monthly Registrations (2026)</h2>
                 <button onClick={() => alert("Downloading report...")} className="text-slate-400 hover:text-slate-600"><Download className="w-4 h-4" /></button>
               </div>
@@ -139,7 +139,7 @@ export default function AdminDashboard() {
 
             {/* Employment Trend */}
             <div className="bg-white border border-slate-200 rounded-3xl p-6 shadow-sm">
-              <div className="flex items-center justify-between mb-6">
+              <div className="flex flex-col md:flex-row md:items-center justify-between gap-4 md:gap-0 items-start md:items-center mb-6">
                 <h2 className="text-lg font-bold text-slate-900">Employment Connections Trend</h2>
                 <button onClick={() => alert("Downloading report...")} className="text-slate-400 hover:text-slate-600"><Download className="w-4 h-4" /></button>
               </div>
@@ -161,7 +161,7 @@ export default function AdminDashboard() {
           <div className="grid lg:grid-cols-3 gap-6">
             {/* Course Completion */}
             <div className="bg-white border border-slate-200 rounded-3xl p-6 shadow-sm lg:col-span-2">
-              <div className="flex items-center justify-between mb-6">
+              <div className="flex flex-col md:flex-row md:items-center justify-between gap-4 md:gap-0 items-start md:items-center mb-6">
                 <h2 className="text-lg font-bold text-slate-900">Course Completion by Category</h2>
               </div>
               <div className="h-[240px]">
@@ -206,7 +206,7 @@ export default function AdminDashboard() {
               </div>
               <div className="space-y-3 mt-4">
                 {metrics.assessment_performance.map(e => (
-                  <div key={e.label} className="flex items-center justify-between text-sm">
+                  <div key={e.label} className="flex flex-col md:flex-row md:items-center justify-between gap-4 md:gap-0 items-start md:items-center text-sm">
                     <div className="flex items-center gap-2">
                       <div className="w-3 h-3 rounded-full" style={{ backgroundColor: e.color }} />
                       <span className="font-medium text-slate-600">{e.label}</span>
@@ -222,7 +222,7 @@ export default function AdminDashboard() {
           <div className="grid lg:grid-cols-3 gap-6 pb-10">
             {/* Table */}
             <div className="bg-white border border-slate-200 rounded-3xl p-6 shadow-sm lg:col-span-2">
-              <div className="flex items-center justify-between mb-6">
+              <div className="flex flex-col md:flex-row md:items-center justify-between gap-4 md:gap-0 items-start md:items-center mb-6">
                 <h2 className="text-lg font-bold text-slate-900">Recent Trainee Registrations</h2>
                 <button onClick={() => alert("Navigating to all records...")} className="text-sm font-semibold text-brand-600 hover:text-brand-800">View All</button>
               </div>

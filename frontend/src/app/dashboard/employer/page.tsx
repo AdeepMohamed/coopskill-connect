@@ -42,7 +42,7 @@ export default function EmployerDashboard() {
       <Sidebar />
       <div className="flex-1 overflow-y-auto">
         {/* Header */}
-        <header className="sticky top-0 z-30 bg-white/80 backdrop-blur-md border-b border-slate-200 px-8 py-5 flex items-center justify-between">
+        <header className="sticky top-0 z-30 bg-white/80 backdrop-blur-md border-b border-slate-200 px-4 md:px-8 py-5 flex flex-col md:flex-row md:items-center justify-between gap-4 md:gap-0 items-start md:items-center">
           <div>
             <h1 className="text-2xl font-extrabold text-slate-900 tracking-tight">🏢 Employer Dashboard</h1>
             <div className="flex items-center gap-2 text-sm font-medium text-slate-500 mt-1">
@@ -56,7 +56,7 @@ export default function EmployerDashboard() {
           </div>
         </header>
 
-        <main className="p-8 max-w-[1600px] mx-auto space-y-8">
+        <main className="p-4 md:p-4 md:p-8 max-w-[1600px] mx-auto space-y-8">
           
           {/* Metrics */}
           <div className="grid sm:grid-cols-2 lg:grid-cols-4 gap-6">
@@ -66,12 +66,12 @@ export default function EmployerDashboard() {
             <StatCard value={16} label="Candidates Shortlisted" colorClass="bg-orange-50 text-orange-600" icon={Star} />
           </div>
 
-          <div className="grid lg:grid-cols-2 gap-8 pb-10">
+          <div className="grid lg:grid-cols-2 gap-4 md:p-8 pb-10">
             {/* Top AI Candidates */}
-            <div className="bg-white border-2 border-purple-100 rounded-3xl p-6 lg:p-8 shadow-sm relative overflow-hidden">
+            <div className="bg-white border-2 border-purple-100 rounded-3xl p-6 lg:p-4 md:p-8 shadow-sm relative overflow-hidden">
               <div className="absolute top-0 right-0 w-80 h-80 bg-purple-50 rounded-full blur-3xl opacity-50 -mr-20 -mt-20 pointer-events-none"></div>
               
-              <div className="relative z-10 flex items-center justify-between mb-6">
+              <div className="relative z-10 flex flex-col md:flex-row md:items-center justify-between gap-4 md:gap-0 items-start md:items-center mb-6">
                 <div>
                   <h2 className="text-xl font-bold text-slate-900 flex items-center gap-3 mb-1">
                     <div className="p-2 bg-purple-100 rounded-lg"><Bot className="w-5 h-5 text-purple-700"/></div>
@@ -141,7 +141,7 @@ export default function EmployerDashboard() {
               
               {/* Active Jobs */}
               <div className="bg-white border border-slate-200 rounded-3xl p-6 shadow-sm">
-                <div className="flex items-center justify-between mb-6">
+                <div className="flex flex-col md:flex-row md:items-center justify-between gap-4 md:gap-0 items-start md:items-center mb-6">
                   <h2 className="text-lg font-bold text-slate-900">Active Job Postings</h2>
                   <button onClick={() => alert("Opening Post Job modal...")} className="px-4 py-2 bg-slate-900 hover:bg-slate-800 text-white text-sm font-bold rounded-xl shadow-sm transition-colors flex items-center gap-2">
                     <Briefcase className="w-4 h-4" /> Post New Job
@@ -174,7 +174,7 @@ export default function EmployerDashboard() {
 
               {/* Recent Applications Table */}
               <div className="bg-white border border-slate-200 rounded-3xl p-6 shadow-sm">
-                <div className="flex items-center justify-between mb-6">
+                <div className="flex flex-col md:flex-row md:items-center justify-between gap-4 md:gap-0 items-start md:items-center mb-6">
                   <h2 className="text-lg font-bold text-slate-900">Recent Applications</h2>
                   <button onClick={() => alert("Navigating to Applications...")} className="text-sm font-semibold text-brand-600 hover:text-brand-800 flex items-center gap-1">
                     View All <ChevronRight className="w-4 h-4" />

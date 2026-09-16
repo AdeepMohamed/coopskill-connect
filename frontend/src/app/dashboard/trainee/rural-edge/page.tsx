@@ -237,7 +237,7 @@ export default function RuralEdgePage() {
                 </h2>
                 <div className="space-y-2">
                   {OFFLINE_COURSES.map(course => (
-                    <div key={course.id} className="flex items-center justify-between p-3 rounded-xl border"
+                    <div key={course.id} className="flex flex-col md:flex-row md:items-center justify-between gap-4 md:gap-0 items-start md:items-center p-3 rounded-xl border"
                       style={{ borderColor: '#e2e8f0' }}>
                       <div>
                         <div className="text-sm font-medium text-slate-700">{course.title}</div>

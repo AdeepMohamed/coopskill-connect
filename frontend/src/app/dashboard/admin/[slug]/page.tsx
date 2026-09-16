@@ -109,7 +109,7 @@ export default function AdminPlaceholderPage() {
               <h3 className="font-bold text-slate-900 mb-1">{course.title}</h3>
               <div className="text-xs font-mono text-slate-500 mb-4">{course.code}</div>
               
-              <div className="flex items-center justify-between text-sm font-semibold text-slate-600 mb-4">
+              <div className="flex flex-col md:flex-row md:items-center justify-between gap-4 md:gap-0 items-start md:items-center text-sm font-semibold text-slate-600 mb-4">
                 <div className="flex items-center gap-1.5"><Users className="w-4 h-4" /> {course.enrolled.toLocaleString()} Enrolled</div>
                 <div className="flex items-center gap-1.5 text-orange-500"><Award className="w-4 h-4" /> {course.rating}</div>
               </div>
@@ -144,7 +144,7 @@ export default function AdminPlaceholderPage() {
 
     return (
       <div className="bg-white border border-slate-200 rounded-3xl shadow-sm overflow-hidden">
-        <div className="p-6 border-b border-slate-200 flex items-center justify-between bg-slate-50/50">
+        <div className="p-6 border-b border-slate-200 flex flex-col md:flex-row md:items-center justify-between gap-4 md:gap-0 items-start md:items-center bg-slate-50/50">
           <div className="relative">
             <Search className="w-4 h-4 text-slate-400 absolute left-3 top-1/2 -translate-y-1/2" />
             <input type="text" placeholder={`Search ${pageName}...`} className="pl-9 pr-4 py-2 border border-slate-200 rounded-xl text-sm focus:outline-none focus:ring-2 focus:ring-brand-500 bg-white w-64" />
@@ -207,7 +207,7 @@ export default function AdminPlaceholderPage() {
     <div className="flex h-screen overflow-hidden bg-slate-50 font-sans">
       <Sidebar />
       <div className="flex-1 overflow-y-auto">
-        <header className="sticky top-0 z-30 bg-white/80 backdrop-blur-md border-b border-slate-200 px-8 py-5 flex items-center justify-between">
+        <header className="sticky top-0 z-30 bg-white/80 backdrop-blur-md border-b border-slate-200 px-4 md:px-8 py-5 flex flex-col md:flex-row md:items-center justify-between gap-4 md:gap-0 items-start md:items-center">
           <div>
             <h1 className="text-2xl font-extrabold text-slate-900 tracking-tight capitalize">{pageName}</h1>
             <div className="text-sm font-medium text-slate-500 mt-1 flex items-center gap-2">
@@ -216,7 +216,7 @@ export default function AdminPlaceholderPage() {
           </div>
         </header>
 
-        <main className="p-8 max-w-7xl mx-auto space-y-6">
+        <main className="p-4 md:p-4 md:p-8 max-w-7xl mx-auto space-y-6">
           {renderContent()}
         </main>
       </div>

@@ -10,7 +10,7 @@ export default function SettingsPage() {
     <div className="flex h-screen overflow-hidden bg-slate-50 font-sans">
       <Sidebar />
       <div className="flex-1 overflow-y-auto">
-        <header className="sticky top-0 z-30 bg-white/80 backdrop-blur-md border-b border-slate-200 px-8 py-5 flex items-center justify-between">
+        <header className="sticky top-0 z-30 bg-white/80 backdrop-blur-md border-b border-slate-200 px-4 md:px-8 py-5 flex flex-col md:flex-row md:items-center justify-between gap-4 md:gap-0 items-start md:items-center">
           <div>
             <h1 className="text-2xl font-extrabold text-slate-900 tracking-tight">Settings & Preferences</h1>
             <div className="text-sm font-medium text-slate-500 mt-1 flex items-center gap-2">
@@ -19,10 +19,10 @@ export default function SettingsPage() {
           </div>
         </header>
 
-        <main className="p-8 max-w-4xl mx-auto space-y-8">
+        <main className="p-4 md:p-4 md:p-8 max-w-4xl mx-auto space-y-8">
           
           {/* Language Settings */}
-          <div className="bg-white rounded-3xl border border-slate-200 p-8 shadow-sm">
+          <div className="bg-white rounded-3xl border border-slate-200 p-4 md:p-8 shadow-sm">
             <div className="flex items-center gap-4 mb-6 pb-6 border-b border-slate-100">
               <div className="w-12 h-12 bg-blue-50 text-blue-600 rounded-xl flex items-center justify-center">
                 <Globe className="w-6 h-6" />
@@ -68,7 +68,7 @@ export default function SettingsPage() {
 
           {/* Dummy Settings Sections */}
           <div className="grid md:grid-cols-2 gap-6">
-            <div className="bg-white rounded-3xl border border-slate-200 p-8 shadow-sm opacity-60">
+            <div className="bg-white rounded-3xl border border-slate-200 p-4 md:p-8 shadow-sm opacity-60">
               <div className="flex items-center gap-3 mb-4">
                 <User className="w-5 h-5 text-slate-500" />
                 <h3 className="font-bold text-slate-900">Profile Settings</h3>
@@ -77,7 +77,7 @@ export default function SettingsPage() {
               <button className="px-4 py-2 bg-slate-100 text-slate-500 text-sm font-bold rounded-xl">Manage Profile</button>
             </div>
             
-            <div className="bg-white rounded-3xl border border-slate-200 p-8 shadow-sm opacity-60">
+            <div className="bg-white rounded-3xl border border-slate-200 p-4 md:p-8 shadow-sm opacity-60">
               <div className="flex items-center gap-3 mb-4">
                 <Bell className="w-5 h-5 text-slate-500" />
                 <h3 className="font-bold text-slate-900">Notifications</h3>

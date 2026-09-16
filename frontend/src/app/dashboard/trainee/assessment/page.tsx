@@ -308,7 +308,7 @@ export default function AssessmentPage() {
           {/* CERTIFICATE */}
           {phase === 'cert' && certId && (
             <div className="animate-slide-up">
-              <div className="certificate-card p-8 mb-4 text-center">
+              <div className="certificate-card p-4 md:p-8 mb-4 text-center">
                 <div className="flex items-center justify-center gap-3 mb-6">
                   <div className="w-12 h-12 rounded-full flex items-center justify-center" style={{ backgroundColor: '#1b4f8a' }}>
                     <Award className="w-6 h-6 text-white" />
