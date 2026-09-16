@@ -3,7 +3,8 @@ import { useEffect } from 'react';
 import { useRouter } from 'next/navigation';
 import Sidebar from '@/components/Sidebar';
 import { useApp } from '@/lib/context';
-import { Users, QrCode, ClipboardList, BookOpen, CheckCircle } from 'lucide-react';
+import { Users, QrCode, ClipboardList, BookOpen, Clock, Calendar, CheckCircle, ChevronRight, Play } from 'lucide-react';
+import Link from 'next/link';
 
 const BATCH = {
   name: 'Digital Cooperative Management',
@@ -13,6 +14,24 @@ const BATCH = {
   end: '15 Sep 2026',
   attendance_today: 26,
 };
+
+function StatCard({ value, label, colorClass, icon: Icon, href }: {
+  value: string | number; label: string; colorClass: string; icon: any; href?: string;
+}) {
+  const content = (
+    <div className={`bg-white rounded-2xl p-5 border border-slate-200 shadow-sm hover:shadow-md hover:border-slate-300 transition-all cursor-pointer group`}>
+      <div className="flex items-start justify-between mb-3">
+        <div className={`w-12 h-12 rounded-xl flex items-center justify-center ${colorClass}`}>
+          <Icon className="w-6 h-6" />
+        </div>
+        {href && <ChevronRight className="w-5 h-5 text-slate-300 group-hover:text-slate-500 transition-colors" />}
+      </div>
+      <div className="text-3xl font-extrabold text-slate-900 tracking-tight mb-1">{value}</div>
+      <div className="text-sm font-semibold text-slate-500">{label}</div>
+    </div>
+  );
+  return href ? <Link href={href} className="block">{content}</Link> : content;
+}
 
 export default function TrainerDashboard() {
   const { user, isLoading } = useApp();
@@ -24,92 +43,134 @@ export default function TrainerDashboard() {
     if (user.role !== 'trainer') { router.push(`/dashboard/${user.role}`); return; }
   }, [user, isLoading, router]);
 
+  const greeting = "Welcome back";
+
   return (
-    <div className="app-layout">
+    <div className="flex h-screen overflow-hidden bg-slate-50 font-sans">
       <Sidebar />
-      <div className="main-content bg-slate-50">
-        <div className="page-header">
+      <div className="flex-1 overflow-y-auto">
+        {/* Header */}
+        <header className="sticky top-0 z-30 bg-white/80 backdrop-blur-md border-b border-slate-200 px-8 py-5 flex items-center justify-between">
           <div>
-            <h1 className="font-bold text-slate-800 text-base">👨‍🏫 Trainer Dashboard</h1>
-            <p className="text-xs text-slate-500">Dr. Arun Sharma | RICM Chennai | Senior Faculty</p>
-          </div>
-          <div className="badge badge-blue">Active Session</div>
-        </div>
-
-        <div className="page-body">
-          <div className="grid grid-cols-4 gap-4 mb-6">
-            {[
-              { val: BATCH.trainees, label: 'Trainees', icon: <Users className="w-5 h-5" />, color: '#1b4f8a' },
-              { val: BATCH.attendance_today, label: "Today's Attendance", icon: <QrCode className="w-5 h-5" />, color: '#15803d' },
-              { val: '86%', label: 'Avg Assessment', icon: <ClipboardList className="w-5 h-5" />, color: '#ea580c' },
-              { val: 2, label: 'Assessments', icon: <BookOpen className="w-5 h-5" />, color: '#7c3aed' },
-            ].map(s => (
-              <div key={s.label} className="stat-card" style={{ borderTopColor: s.color }}>
-                <div className="w-10 h-10 rounded-xl flex items-center justify-center mb-2"
-                  style={{ backgroundColor: `${s.color}15`, color: s.color }}>
-                  {s.icon}
-                </div>
-                <div className="text-2xl font-bold text-slate-800">{s.val}</div>
-                <div className="text-sm text-slate-500">{s.label}</div>
-              </div>
-            ))}
-          </div>
-
-          <div className="grid lg:grid-cols-2 gap-6">
-            {/* Current Batch */}
-            <div className="card">
-              <h2 className="font-bold text-slate-800 mb-4">Current Batch</h2>
-              <div className="p-4 rounded-xl mb-4" style={{ backgroundColor: '#f8faff', border: '1px solid #1b4f8a20' }}>
-                <div className="font-bold text-slate-800 mb-2">{BATCH.name}</div>
-                <div className="text-xs text-slate-500 mb-3">{BATCH.code} • {BATCH.start} – {BATCH.end}</div>
-                <div className="flex justify-between text-sm">
-                  <span>{BATCH.trainees} Trainees enrolled</span>
-                  <span className="font-bold" style={{ color: '#15803d' }}>{BATCH.attendance_today} present today</span>
-                </div>
-              </div>
-              <button className="btn btn-primary w-full">
-                <QrCode className="w-4 h-4" /> Generate QR for Today's Session
-              </button>
-            </div>
-
-            {/* Trainee Progress */}
-            <div className="card">
-              <h2 className="font-bold text-slate-800 mb-4">Trainee Progress Overview</h2>
-              <table className="data-table">
-                <thead>
-                  <tr><th>Name</th><th>Progress</th><th>Assessment</th><th>Status</th></tr>
-                </thead>
-                <tbody>
-                  {[
-                    { name: 'Ravi Kumar', progress: 72, score: 86, status: 'On Track' },
-                    { name: 'Preethi Devi', progress: 85, score: 78, status: 'On Track' },
-                    { name: 'Arjun Kumar', progress: 45, score: 62, status: 'Needs Help' },
-                    { name: 'Meena Selvam', progress: 92, score: 91, status: 'Excellent' },
-                    { name: 'Suresh Babu', progress: 60, score: 70, status: 'On Track' },
-                  ].map(t => (
-                    <tr key={t.name}>
-                      <td className="font-medium text-sm">{t.name}</td>
-                      <td>
-                        <div className="flex items-center gap-2">
-                          <div className="w-16 progress-track h-1.5">
-                            <div className="progress-bar" style={{ width: `${t.progress}%`, backgroundColor: '#1b4f8a' }} />
-                          </div>
-                          <span className="text-xs text-slate-500">{t.progress}%</span>
-                        </div>
-                      </td>
-                      <td className="text-sm font-bold" style={{ color: t.score >= 80 ? '#15803d' : '#ea580c' }}>{t.score}%</td>
-                      <td>
-                        <span className={`badge text-[10px] ${t.status === 'Excellent' ? 'badge-green' : t.status === 'On Track' ? 'badge-blue' : 'badge-red'}`}>
-                          {t.status}
-                        </span>
-                      </td>
-                    </tr>
-                  ))}
-                </tbody>
-              </table>
+            <h1 className="text-2xl font-extrabold text-slate-900 tracking-tight">👨‍🏫 Trainer Dashboard</h1>
+            <div className="flex items-center gap-3 mt-1 text-sm font-medium text-slate-500">
+              <span className="flex items-center gap-1.5 text-brand-600 bg-brand-50 px-2 py-0.5 rounded-md"><BookOpen className="w-3.5 h-3.5"/> Dr. Arun Sharma</span>
+              <span className="flex items-center gap-1.5"><Users className="w-3.5 h-3.5"/> Senior Faculty</span>
+              <span className="flex items-center gap-1.5"><CheckCircle className="w-3.5 h-3.5"/> RICM Chennai</span>
             </div>
           </div>
-        </div>
+          <div className="flex items-center gap-4">
+            <div className="px-3 py-1.5 bg-emerald-50 text-emerald-700 border border-emerald-200 rounded-full text-xs font-bold shadow-sm flex items-center gap-2">
+              <div className="w-2 h-2 rounded-full bg-emerald-500 animate-pulse"></div> Active Session
+            </div>
+          </div>
+        </header>
+
+        <main className="p-8 max-w-7xl mx-auto">
+          {/* Metrics Row */}
+          <div className="grid sm:grid-cols-2 lg:grid-cols-4 gap-6 mb-8">
+            <StatCard value={BATCH.trainees} label="Enrolled Trainees" colorClass="bg-blue-50 text-blue-600" icon={Users} href="/dashboard/trainer/batches" />
+            <StatCard value={BATCH.attendance_today} label="Today's Attendance" colorClass="bg-emerald-50 text-emerald-600" icon={QrCode} href="/dashboard/trainer/attendance" />
+            <StatCard value="86%" label="Avg Assessment Score" colorClass="bg-orange-50 text-orange-600" icon={ClipboardList} href="/dashboard/trainer/assessments" />
+            <StatCard value={2} label="Pending Assessments" colorClass="bg-purple-50 text-purple-600" icon={BookOpen} href="/dashboard/trainer/assessments" />
+          </div>
+
+          <div className="grid lg:grid-cols-3 gap-8">
+            {/* Left Column (Current Batch Focus) */}
+            <div className="lg:col-span-1 space-y-8">
+              <div className="bg-white border border-slate-200 rounded-3xl p-6 lg:p-8 shadow-sm">
+                <h2 className="text-xl font-bold text-slate-900 mb-6 flex items-center gap-3">
+                  <div className="p-2 bg-brand-100 rounded-lg"><Users className="w-5 h-5 text-brand-700"/></div>
+                  Current Batch
+                </h2>
+                
+                <div className="bg-slate-50 border border-slate-200 rounded-2xl p-5 mb-6">
+                  <div className="flex items-start justify-between mb-4">
+                    <div>
+                      <h3 className="font-bold text-slate-900 leading-tight">{BATCH.name}</h3>
+                      <p className="text-sm font-semibold text-slate-500 mt-1 font-mono">{BATCH.code}</p>
+                    </div>
+                  </div>
+                  
+                  <div className="space-y-3">
+                    <div className="flex items-center gap-3 text-sm text-slate-600">
+                      <Calendar className="w-4 h-4 text-brand-600" />
+                      <span className="font-medium">{BATCH.start} – {BATCH.end}</span>
+                    </div>
+                    <div className="flex items-center gap-3 text-sm text-slate-600">
+                      <Users className="w-4 h-4 text-blue-600" />
+                      <span className="font-medium">{BATCH.trainees} Trainees enrolled</span>
+                    </div>
+                    <div className="flex items-center gap-3 text-sm text-slate-600">
+                      <CheckCircle className="w-4 h-4 text-emerald-600" />
+                      <span className="font-bold text-emerald-600">{BATCH.attendance_today} present today</span>
+                    </div>
+                  </div>
+                </div>
+
+                <button className="w-full inline-flex items-center justify-center gap-2 px-6 py-3 bg-slate-900 hover:bg-slate-800 text-white rounded-xl font-bold shadow-md transition-all group">
+                  <QrCode className="w-5 h-5 group-hover:scale-110 transition-transform" /> Generate QR for Session
+                </button>
+              </div>
+            </div>
+
+            {/* Right Column (Trainee Progress Table) */}
+            <div className="lg:col-span-2">
+              <div className="bg-white border border-slate-200 rounded-3xl p-6 lg:p-8 shadow-sm h-full">
+                <div className="flex items-center justify-between mb-6">
+                  <h2 className="text-xl font-bold text-slate-900">Trainee Progress Overview</h2>
+                  <Link href="/dashboard/trainer/batches" className="text-sm font-semibold text-brand-600 hover:text-brand-800">View All →</Link>
+                </div>
+                
+                <div className="overflow-x-auto">
+                  <table className="w-full text-left border-collapse">
+                    <thead>
+                      <tr className="border-b border-slate-200">
+                        <th className="py-3 px-4 text-xs font-bold text-slate-500 uppercase tracking-wider">Name</th>
+                        <th className="py-3 px-4 text-xs font-bold text-slate-500 uppercase tracking-wider">Progress</th>
+                        <th className="py-3 px-4 text-xs font-bold text-slate-500 uppercase tracking-wider">Assessment</th>
+                        <th className="py-3 px-4 text-xs font-bold text-slate-500 uppercase tracking-wider">Status</th>
+                      </tr>
+                    </thead>
+                    <tbody className="divide-y divide-slate-100">
+                      {[
+                        { name: 'Ravi Kumar', progress: 72, score: 86, status: 'On Track' },
+                        { name: 'Preethi Devi', progress: 85, score: 78, status: 'On Track' },
+                        { name: 'Arjun Kumar', progress: 45, score: 62, status: 'Needs Help' },
+                        { name: 'Meena Selvam', progress: 92, score: 91, status: 'Excellent' },
+                        { name: 'Suresh Babu', progress: 60, score: 70, status: 'On Track' },
+                      ].map(t => (
+                        <tr key={t.name} className="hover:bg-slate-50 transition-colors">
+                          <td className="py-4 px-4 font-bold text-slate-800">{t.name}</td>
+                          <td className="py-4 px-4">
+                            <div className="flex items-center gap-3">
+                              <div className="flex-1 max-w-[120px] h-2 bg-slate-200 rounded-full overflow-hidden">
+                                <div className="h-full bg-brand-600 rounded-full" style={{ width: `${t.progress}%` }}></div>
+                              </div>
+                              <span className="text-xs font-bold text-slate-600">{t.progress}%</span>
+                            </div>
+                          </td>
+                          <td className={`py-4 px-4 font-extrabold ${t.score >= 80 ? 'text-emerald-600' : 'text-orange-500'}`}>
+                            {t.score}%
+                          </td>
+                          <td className="py-4 px-4">
+                            <span className={`px-2.5 py-1 text-[10px] font-bold uppercase tracking-wider rounded-full border ${
+                              t.status === 'Excellent' ? 'bg-emerald-50 text-emerald-700 border-emerald-200' : 
+                              t.status === 'On Track' ? 'bg-blue-50 text-blue-700 border-blue-200' : 
+                              'bg-orange-50 text-orange-700 border-orange-200'
+                            }`}>
+                              {t.status}
+                            </span>
+                          </td>
+                        </tr>
+                      ))}
+                    </tbody>
+                  </table>
+                </div>
+              </div>
+            </div>
+          </div>
+        </main>
       </div>
     </div>
   );

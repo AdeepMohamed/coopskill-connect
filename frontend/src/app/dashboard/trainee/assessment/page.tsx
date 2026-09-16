@@ -339,8 +339,23 @@ export default function AssessmentPage() {
                 </div>
               </div>
               <div className="flex gap-3">
-                <button className="btn btn-primary flex-1">📥 Download PDF</button>
-                <button className="btn btn-green flex-1">🔗 Share</button>
+                <button onClick={() => {
+                  const pdfContent = '%PDF-1.4\\n1 0 obj\\n<< /Type /Catalog /Pages 2 0 R >>\\nendobj\\n2 0 obj\\n<< /Type /Pages /Kids [3 0 R] /Count 1 >>\\nendobj\\n3 0 obj\\n<< /Type /Page /Parent 2 0 R /MediaBox [0 0 612 792] /Resources << /Font << /F1 4 0 R >> >> /Contents 5 0 R >>\\nendobj\\n4 0 obj\\n<< /Type /Font /Subtype /Type1 /BaseFont /Helvetica >>\\nendobj\\n5 0 obj\\n<< /Length 57 >>\\nstream\\nBT\\n/F1 24 Tf\\n100 700 Td\\n(ASSESSMENT RESULT: 86% PASSED) Tj\\nET\\nendstream\\nendobj\\nxref\\n0 6\\n0000000000 65535 f \\n0000000009 00000 n \\n0000000058 00000 n \\n0000000115 00000 n \\n0000000227 00000 n \\n0000000295 00000 n \\ntrailer\\n<< /Size 6 /Root 1 0 R >>\\nstartxref\\n403\\n%%EOF';
+                  const blob = new Blob([pdfContent], { type: 'application/pdf' });
+                  const url = URL.createObjectURL(blob);
+                  const a = document.createElement('a');
+                  a.href = url;
+                  a.setAttribute('download', `Assessment_Result.pdf`);
+                  a.style.display = 'none';
+                  document.body.appendChild(a);
+                  a.click();
+                  document.body.removeChild(a);
+                  
+                  setTimeout(() => {
+                    URL.revokeObjectURL(url);
+                  }, 1000);
+                }} className="btn btn-primary flex-1">📥 Download PDF</button>
+                <button onClick={() => alert("Opening share menu...")} className="btn btn-green flex-1">🔗 Share</button>
                 <button onClick={() => setPhase('intro')} className="btn btn-outline">Done</button>
               </div>
             </div>

@@ -9,7 +9,7 @@ const jakarta = Plus_Jakarta_Sans({ subsets: ["latin"], variable: "--font-jakart
 export const metadata: Metadata = {
   title: "CoopSkill Connect | From Rural Skills to Real Opportunities",
   description: "AI & LMS-Enabled Cooperative Capacity Building, ERP & Employment Ecosystem. NCCT | Ministry of Cooperation, Government of India.",
-  keywords: "cooperative training, NCCT, LMS, skill development, employment, Gemini AI, Smart India Hackathon",
+  keywords: "cooperative training, NCCT, LMS, skill development, employment, CoopSkill AI, Smart India Hackathon",
   authors: [{ name: "NCCT | Ministry of Cooperation" }],
   openGraph: {
     title: "CoopSkill Connect",

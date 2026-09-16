@@ -3,8 +3,8 @@ import { useEffect, useState } from 'react';
 import { useRouter } from 'next/navigation';
 import Link from 'next/link';
 import {
-  BookOpen, QrCode, Award, Bot, Briefcase, Bell, TrendingUp,
-  ChevronRight, Play, Star, CheckCircle, Clock, AlertCircle
+  BookOpen, QrCode, Award, Bot, Briefcase, Bell,
+  ChevronRight, Play, Star, AlertCircle, Building2, MapPin, ClipboardList
 } from 'lucide-react';
 import Sidebar from '@/components/Sidebar';
 import { useApp } from '@/lib/context';
@@ -47,7 +47,6 @@ interface DashboardData {
   notifications: Array<{ id: number; title: string; message: string; type: string; is_read: boolean }>;
 }
 
-// Fallback demo data when backend is not connected
 const DEMO_DATA: DashboardData = {
   trainee: {
     trainee_id: 'CC-2026-00127',
@@ -98,43 +97,28 @@ const DEMO_DATA: DashboardData = {
   notifications: [
     { id: 1, title: 'Assessment Passed ✓', message: 'You scored 86% on DCM Final Assessment.', type: 'success', is_read: true },
     { id: 2, title: 'New Job Match 🎯', message: '8 new job opportunities match your skill profile.', type: 'info', is_read: false },
-    { id: 3, title: 'AI Recommendation Ready 🤖', message: 'Your Gemini AI career recommendation is ready.', type: 'info', is_read: false },
+    { id: 3, title: 'AI Recommendation Ready 🤖', message: 'Your AI career recommendation is ready.', type: 'info', is_read: false },
   ],
 };
 
-function StatCard({ value, label, subLabel, color, icon, href }: {
+function StatCard({ value, label, subLabel, colorClass, icon: Icon, href }: {
   value: string | number; label: string; subLabel?: string;
-  color: string; icon: React.ReactNode; href?: string;
+  colorClass: string; icon: any; href?: string;
 }) {
   const content = (
-    <div className="stat-card hover:shadow-md transition-all cursor-pointer group" style={{ borderTopColor: color }}>
-      <div className="flex items-start justify-between mb-2">
-        <div className="w-10 h-10 rounded-xl flex items-center justify-center" style={{ backgroundColor: `${color}15`, color }}>
-          {icon}
+    <div className={`bg-white rounded-2xl p-5 border border-slate-200 shadow-sm hover:shadow-md hover:border-slate-300 transition-all cursor-pointer group`}>
+      <div className="flex items-start justify-between mb-3">
+        <div className={`w-12 h-12 rounded-xl flex items-center justify-center ${colorClass}`}>
+          <Icon className="w-6 h-6" />
         </div>
-        {href && <ChevronRight className="w-4 h-4 text-slate-300 group-hover:text-slate-500 transition-colors" />}
+        {href && <ChevronRight className="w-5 h-5 text-slate-300 group-hover:text-slate-500 transition-colors" />}
       </div>
-      <div className="text-2xl font-bold text-slate-800 mb-0.5">{value}</div>
-      <div className="text-sm font-medium text-slate-600">{label}</div>
-      {subLabel && <div className="text-xs text-slate-400 mt-0.5">{subLabel}</div>}
+      <div className="text-3xl font-extrabold text-slate-900 tracking-tight mb-1">{value}</div>
+      <div className="text-sm font-semibold text-slate-500">{label}</div>
+      {subLabel && <div className="text-xs text-slate-400 mt-1">{subLabel}</div>}
     </div>
   );
-  return href ? <Link href={href}>{content}</Link> : content;
-}
-
-function SkillBar({ name, proficiency, category }: { name: string; proficiency: number; category: string }) {
-  const color = proficiency >= 80 ? '#15803d' : proficiency >= 60 ? '#1b4f8a' : '#ea580c';
-  return (
-    <div className="mb-3">
-      <div className="flex justify-between items-center mb-1">
-        <span className="text-sm text-slate-700 font-medium">{name}</span>
-        <span className="text-xs font-bold" style={{ color }}>{proficiency}%</span>
-      </div>
-      <div className="progress-track">
-        <div className="progress-bar" style={{ width: `${proficiency}%`, backgroundColor: color }} />
-      </div>
-    </div>
-  );
+  return href ? <Link href={href} className="block">{content}</Link> : content;
 }
 
 export default function TraineeDashboard() {
@@ -156,7 +140,7 @@ export default function TraineeDashboard() {
         setData(d);
         setUsingDemo(false);
       } catch {
-        // Use demo data silently
+        // Fallback to demo
       } finally {
         setApiLoading(false);
       }
@@ -166,256 +150,208 @@ export default function TraineeDashboard() {
 
   const hour = new Date().getHours();
   const greeting = hour < 12 ? t(lang, 'goodMorning') : hour < 17 ? t(lang, 'goodAfternoon') : t(lang, 'goodEvening');
-
   const unread = data.notifications.filter(n => !n.is_read).length;
 
   return (
-    <div className="app-layout">
+    <div className="flex h-screen overflow-hidden bg-slate-50 font-sans">
       <Sidebar />
-      <div className="main-content bg-slate-50">
+      <div className="flex-1 overflow-y-auto">
         {/* Header */}
-        <div className="page-header">
+        <header className="sticky top-0 z-30 bg-white/80 backdrop-blur-md border-b border-slate-200 px-8 py-5 flex items-center justify-between">
           <div>
-            <h1 className="font-bold text-slate-800 text-base">{greeting}, {data.trainee.name}!</h1>
-            <p className="text-xs text-slate-500 mt-0.5">
-              {data.trainee.trainee_id} • {data.trainee.institution_name || 'NCCT'} • {data.trainee.location}
-            </p>
+            <h1 className="text-2xl font-extrabold text-slate-900 tracking-tight">{greeting}, {data.trainee.name}</h1>
+            <div className="flex items-center gap-3 mt-1 text-sm font-medium text-slate-500">
+              <span className="flex items-center gap-1.5 text-brand-600 bg-brand-50 px-2 py-0.5 rounded-md"><BookOpen className="w-3.5 h-3.5"/> {data.trainee.trainee_id}</span>
+              <span className="flex items-center gap-1.5"><Building2 className="w-3.5 h-3.5"/> {data.trainee.institution_name || 'NCCT'}</span>
+              <span className="flex items-center gap-1.5"><MapPin className="w-3.5 h-3.5"/> {data.trainee.location}</span>
+            </div>
           </div>
-          <div className="flex items-center gap-3">
+          <div className="flex items-center gap-4">
             {usingDemo && (
-              <div className="badge badge-amber text-xs">Demo Mode</div>
+              <div className="hidden md:flex items-center gap-2 px-3 py-1.5 bg-amber-50 text-amber-700 border border-amber-200 rounded-full text-xs font-bold shadow-sm">
+                <AlertCircle className="w-4 h-4" /> Demo Data
+              </div>
             )}
-            {apiLoading && <div className="spinner" />}
-            <Link href="/dashboard/trainee/profile" className="relative p-2 rounded-lg hover:bg-slate-100 transition-colors">
+            {apiLoading && <div className="w-5 h-5 border-2 border-slate-300 border-t-brand-600 rounded-full animate-spin"></div>}
+            
+            <Link href="/dashboard/trainee/profile" className="relative p-2.5 bg-white border border-slate-200 rounded-xl hover:bg-slate-50 hover:border-slate-300 transition-all shadow-sm">
               <Bell className="w-5 h-5 text-slate-600" />
               {unread > 0 && (
-                <span className="absolute -top-0.5 -right-0.5 w-4 h-4 rounded-full text-[10px] font-bold text-white flex items-center justify-center"
-                  style={{ backgroundColor: '#ea580c' }}>
+                <span className="absolute -top-1.5 -right-1.5 w-5 h-5 bg-orange-500 text-white text-[10px] font-bold rounded-full flex items-center justify-center border-2 border-white shadow-sm">
                   {unread}
                 </span>
               )}
             </Link>
           </div>
-        </div>
+        </header>
 
-        {/* Body */}
-        <div className="page-body">
-          {/* Demo mode notice */}
-          {usingDemo && (
-            <div className="mb-6 p-3 rounded-xl border text-sm flex items-center gap-2"
-              style={{ backgroundColor: '#fffbeb', borderColor: '#fde68a', color: '#92400e' }}>
-              <AlertCircle className="w-4 h-4 flex-shrink-0" />
-              Demo mode — showing pre-seeded data. Start the FastAPI backend and run <code className="font-mono mx-1 bg-amber-100 px-1 rounded">python seed.py</code> for live data.
-            </div>
-          )}
-
-          {/* Stat Cards */}
-          <div className="grid grid-cols-2 lg:grid-cols-5 gap-4 mb-6">
-            <StatCard
-              value={`${data.learning_progress}%`}
-              label={t(lang, 'learningProgress')}
-              subLabel={data.current_course?.title}
-              color="#1b4f8a"
-              icon={<BookOpen className="w-5 h-5" />}
-              href="/dashboard/trainee/learning"
-            />
-            <StatCard
-              value={`${data.attendance_rate}%`}
-              label={t(lang, 'attendanceRate')}
-              color="#15803d"
-              icon={<QrCode className="w-5 h-5" />}
-              href="/dashboard/trainee/attendance"
-            />
-            <StatCard
-              value={data.skills_count}
-              label={t(lang, 'skillsAcquired')}
-              color="#7c3aed"
-              icon={<Star className="w-5 h-5" />}
-              href="/dashboard/trainee/profile"
-            />
-            <StatCard
-              value={data.certificates_count}
-              label={t(lang, 'certificatesIssued')}
-              color="#ea580c"
-              icon={<Award className="w-5 h-5" />}
-              href="/dashboard/trainee/certificates"
-            />
-            <StatCard
-              value={data.job_matches_count}
-              label={t(lang, 'jobMatches')}
-              color="#15803d"
-              icon={<Briefcase className="w-5 h-5" />}
-              href="/dashboard/trainee/employment"
-            />
+        <main className="p-8 max-w-7xl mx-auto">
+          {/* Metrics */}
+          <div className="grid sm:grid-cols-2 xl:grid-cols-5 gap-6 mb-8">
+            <StatCard value={`${data.learning_progress}%`} label={t(lang, 'learningProgress')} subLabel={data.current_course?.title} colorClass="bg-brand-50 text-brand-600" icon={BookOpen} href="/dashboard/trainee/learning" />
+            <StatCard value={`${data.attendance_rate}%`} label={t(lang, 'attendanceRate')} colorClass="bg-emerald-50 text-emerald-600" icon={QrCode} href="/dashboard/trainee/attendance" />
+            <StatCard value={data.skills_count} label={t(lang, 'skillsAcquired')} colorClass="bg-purple-50 text-purple-600" icon={Star} href="/dashboard/trainee/profile" />
+            <StatCard value={data.certificates_count} label={t(lang, 'certificatesIssued')} colorClass="bg-orange-50 text-orange-600" icon={Award} href="/dashboard/trainee/certificates" />
+            <StatCard value={data.job_matches_count} label={t(lang, 'jobMatches')} colorClass="bg-blue-50 text-blue-600" icon={Briefcase} href="/dashboard/trainee/employment" />
           </div>
 
-          {/* Main Grid */}
-          <div className="grid lg:grid-cols-3 gap-6">
-            {/* Left Column (2/3) */}
-            <div className="lg:col-span-2 space-y-6">
-              {/* Current Course */}
+          <div className="grid xl:grid-cols-3 gap-8">
+            {/* Main Content Column */}
+            <div className="xl:col-span-2 space-y-8">
+              
+              {/* Current Course Widget */}
               {data.current_course && (
-                <div className="card animate-slide-up">
-                  <div className="flex items-center justify-between mb-4">
-                    <h2 className="font-bold text-slate-800 text-base">📚 Current Course</h2>
-                    <Link href="/dashboard/trainee/learning" className="text-xs font-semibold hover:underline" style={{ color: '#1b4f8a' }}>
-                      View All →
-                    </Link>
+                <div className="bg-white border border-slate-200 rounded-3xl p-6 lg:p-8 shadow-sm relative overflow-hidden">
+                  <div className="absolute top-0 right-0 w-64 h-64 bg-brand-50 rounded-full blur-3xl opacity-60 -mr-20 -mt-20 pointer-events-none"></div>
+                  
+                  <div className="relative z-10 flex items-center justify-between mb-6">
+                    <h2 className="text-xl font-bold text-slate-900 flex items-center gap-3">
+                      <div className="p-2 bg-brand-100 rounded-lg"><BookOpen className="w-5 h-5 text-brand-700"/></div>
+                      Continue Learning
+                    </h2>
+                    <Link href="/dashboard/trainee/learning" className="text-sm font-semibold text-brand-600 hover:text-brand-800 transition-colors">View All Courses →</Link>
                   </div>
-                  <div className="p-4 rounded-xl border mb-4" style={{ borderColor: '#1b4f8a20', backgroundColor: '#f8faff' }}>
-                    <div className="flex items-start justify-between gap-3 mb-3">
+                  
+                  <div className="bg-slate-50 border border-slate-200 rounded-2xl p-5">
+                    <div className="flex flex-col md:flex-row md:items-center justify-between gap-4 mb-5">
                       <div>
-                        <div className="font-bold text-slate-800">{data.current_course.title}</div>
-                        <div className="text-xs text-slate-500 mt-0.5">
-                          {data.current_course.code} • Module {data.current_course.current_module} of {data.current_course.modules_count}
-                        </div>
+                        <h3 className="text-lg font-bold text-slate-900">{data.current_course.title}</h3>
+                        <p className="text-sm font-medium text-slate-500 mt-1">{data.current_course.code} • Module {data.current_course.current_module} of {data.current_course.modules_count}</p>
                       </div>
-                      <div className="badge badge-blue">{data.current_course.status.replace('_', ' ')}</div>
-                    </div>
-                    <div className="mb-2">
-                      <div className="flex justify-between text-xs text-slate-500 mb-1">
-                        <span>Progress</span>
-                        <span className="font-bold" style={{ color: '#1b4f8a' }}>{data.current_course.progress}%</span>
-                      </div>
-                      <div className="progress-track">
-                        <div className="progress-bar" style={{ width: `${data.current_course.progress}%`, backgroundColor: '#1b4f8a' }} />
+                      <div className="px-3 py-1 bg-blue-100 text-blue-700 text-xs font-bold rounded-full border border-blue-200 uppercase tracking-wider self-start md:self-auto">
+                        {data.current_course.status.replace('_', ' ')}
                       </div>
                     </div>
-                    <Link href="/dashboard/trainee/learning" className="btn btn-primary btn-sm mt-3 w-full justify-center" style={{ display: 'flex' }}>
-                      <Play className="w-3 h-3" />
-                      {t(lang, 'continueLearning')}
+                    
+                    <div className="mb-6">
+                      <div className="flex justify-between text-sm font-bold text-slate-700 mb-2">
+                        <span>Course Progress</span>
+                        <span className="text-brand-600">{data.current_course.progress}%</span>
+                      </div>
+                      <div className="w-full h-2.5 bg-slate-200 rounded-full overflow-hidden">
+                        <div className="h-full bg-brand-600 rounded-full" style={{ width: `${data.current_course.progress}%` }}></div>
+                      </div>
+                    </div>
+                    
+                    <Link href="/dashboard/trainee/learning" className="inline-flex w-full items-center justify-center gap-2 px-6 py-3 bg-slate-900 hover:bg-slate-800 text-white rounded-xl font-bold shadow-md transition-all">
+                      <Play className="w-4 h-4 fill-current" /> Resume Module
                     </Link>
                   </div>
                 </div>
               )}
 
-              {/* AI Recommendation Preview */}
+              {/* Gemini AI Advisor Widget */}
               {data.latest_ai_recommendation && (
-                <div className="card animate-slide-up" style={{ borderLeft: '3px solid #7c3aed' }}>
-                  <div className="flex items-center justify-between mb-4">
-                    <div className="flex items-center gap-2">
-                      <Bot className="w-5 h-5" style={{ color: '#7c3aed' }} />
-                      <h2 className="font-bold text-slate-800 text-base">AI Career Advisor</h2>
-                      <div className="badge badge-purple text-[10px]">Gemini AI</div>
+                <div className="bg-white border-2 border-purple-100 rounded-3xl p-6 lg:p-8 shadow-sm relative overflow-hidden">
+                  <div className="absolute -bottom-20 -right-20 w-80 h-80 bg-purple-50 rounded-full blur-3xl pointer-events-none"></div>
+                  
+                  <div className="relative z-10 flex items-center justify-between mb-6">
+                    <h2 className="text-xl font-bold text-slate-900 flex items-center gap-3">
+                      <div className="p-2 bg-purple-100 rounded-lg"><Bot className="w-5 h-5 text-purple-700"/></div>
+                      Gemini Career Advisor
+                    </h2>
+                    <Link href="/dashboard/trainee/ai-advisor" className="text-sm font-semibold text-purple-600 hover:text-purple-800 transition-colors">Full Analysis →</Link>
+                  </div>
+                  
+                  <div className="relative z-10">
+                    <p className="text-slate-600 font-medium leading-relaxed mb-6 bg-purple-50/50 p-4 rounded-xl border border-purple-100/50">
+                      "{data.latest_ai_recommendation.response.recommendation}"
+                    </p>
+                    
+                    <h4 className="text-xs font-bold text-slate-500 uppercase tracking-widest mb-4">Top AI Matches</h4>
+                    <div className="space-y-3 mb-6">
+                      {data.latest_ai_recommendation.response.career_paths.slice(0, 3).map((path, i) => (
+                        <div key={i} className="flex items-center gap-4 p-4 rounded-2xl border border-slate-200 bg-white hover:border-purple-300 hover:shadow-md transition-all">
+                          <div className={`w-10 h-10 rounded-full flex items-center justify-center text-sm font-bold text-white flex-shrink-0 shadow-inner
+                            ${i === 0 ? 'bg-emerald-500' : i === 1 ? 'bg-brand-500' : 'bg-orange-400'}`}>
+                            #{i + 1}
+                          </div>
+                          <div className="flex-1 min-w-0">
+                            <div className="font-bold text-slate-900 truncate">{path.title}</div>
+                            <div className="text-xs font-medium text-slate-500 truncate mt-0.5">{path.why}</div>
+                          </div>
+                          <div className={`text-lg font-extrabold flex-shrink-0 ${path.match_percentage >= 85 ? 'text-emerald-600' : path.match_percentage >= 70 ? 'text-brand-600' : 'text-orange-500'}`}>
+                            {path.match_percentage}%
+                          </div>
+                        </div>
+                      ))}
                     </div>
-                    <Link href="/dashboard/trainee/ai-advisor" className="text-xs font-semibold hover:underline" style={{ color: '#7c3aed' }}>
-                      Full Analysis →
+                    
+                    <Link href="/dashboard/trainee/ai-advisor" className="inline-flex w-full items-center justify-center gap-2 px-6 py-3 bg-purple-50 hover:bg-purple-100 border border-purple-200 text-purple-700 rounded-xl font-bold transition-all">
+                      <Bot className="w-5 h-5" /> Consult CoopSkill AI
                     </Link>
                   </div>
-                  <p className="text-sm text-slate-600 mb-4 leading-relaxed">
-                    {data.latest_ai_recommendation.response.recommendation}
-                  </p>
-                  <div className="space-y-2 mb-4">
-                    {data.latest_ai_recommendation.response.career_paths.slice(0, 3).map((path, i) => (
-                      <div key={i} className="flex items-center gap-3 p-3 rounded-xl border" style={{ borderColor: '#e2e8f0' }}>
-                        <div className="text-xs font-bold w-5 h-5 rounded-full flex items-center justify-center text-white flex-shrink-0"
-                          style={{ backgroundColor: i === 0 ? '#15803d' : i === 1 ? '#1b4f8a' : '#ea580c' }}>
-                          {String(i + 1).padStart(2, '0')}
-                        </div>
-                        <div className="flex-1 min-w-0">
-                          <div className="text-sm font-semibold text-slate-800 truncate">{path.title}</div>
-                          <div className="text-xs text-slate-500 truncate">{path.why}</div>
-                        </div>
-                        <div className="text-sm font-bold flex-shrink-0"
-                          style={{ color: path.match_percentage >= 85 ? '#15803d' : path.match_percentage >= 70 ? '#1b4f8a' : '#ea580c' }}>
-                          {path.match_percentage}%
-                        </div>
-                      </div>
-                    ))}
-                  </div>
-                  <Link href="/dashboard/trainee/ai-advisor" className="btn btn-outline btn-sm w-full justify-center" style={{ display: 'flex', borderColor: '#7c3aed', color: '#7c3aed' }}>
-                    <Bot className="w-3 h-3" />
-                    {t(lang, 'viewAIRecommendation')}
-                  </Link>
                 </div>
               )}
+            </div>
 
-              {/* Recent Certificates */}
+            {/* Sidebar Column */}
+            <div className="space-y-8">
+              
+              {/* Skills */}
+              <div className="bg-white border border-slate-200 rounded-3xl p-6 shadow-sm">
+                <div className="flex items-center justify-between mb-6">
+                  <h2 className="text-lg font-bold text-slate-900">Skill Profile</h2>
+                  <Link href="/dashboard/trainee/profile" className="text-sm font-semibold text-brand-600">Edit</Link>
+                </div>
+                <div className="space-y-4">
+                  {data.skills.slice(0, 6).map((skill, i) => (
+                    <div key={i}>
+                      <div className="flex justify-between items-center mb-1.5">
+                        <span className="text-sm font-semibold text-slate-700">{skill.name}</span>
+                        <span className="text-xs font-bold text-slate-500">{skill.proficiency}%</span>
+                      </div>
+                      <div className="w-full h-2 bg-slate-100 rounded-full overflow-hidden">
+                        <div className={`h-full rounded-full ${skill.proficiency >= 80 ? 'bg-emerald-500' : skill.proficiency >= 60 ? 'bg-brand-500' : 'bg-orange-500'}`} style={{ width: `${skill.proficiency}%` }}></div>
+                      </div>
+                    </div>
+                  ))}
+                </div>
+              </div>
+
+              {/* Certificates */}
               {data.recent_certificates.length > 0 && (
-                <div className="card">
-                  <div className="flex items-center justify-between mb-4">
-                    <h2 className="font-bold text-slate-800 text-base">🏅 Certificates</h2>
-                    <Link href="/dashboard/trainee/certificates" className="text-xs font-semibold hover:underline" style={{ color: '#1b4f8a' }}>
-                      View All →
-                    </Link>
-                  </div>
+                <div className="bg-white border border-slate-200 rounded-3xl p-6 shadow-sm">
+                  <h2 className="text-lg font-bold text-slate-900 mb-5">Latest Certificates</h2>
                   <div className="space-y-3">
                     {data.recent_certificates.map(cert => (
-                      <div key={cert.certificate_id} className="flex items-center gap-3 p-3 rounded-xl border" style={{ borderColor: '#e2e8f0', backgroundColor: '#f0fdf4' }}>
-                        <Award className="w-8 h-8 flex-shrink-0" style={{ color: '#15803d' }} />
-                        <div className="flex-1 min-w-0">
-                          <div className="text-sm font-semibold text-slate-800 truncate">{cert.course_title}</div>
-                          <div className="text-xs text-slate-500">{cert.certificate_id}</div>
+                      <div key={cert.certificate_id} className="flex gap-4 p-4 bg-emerald-50/50 border border-emerald-100 rounded-2xl">
+                        <div className="w-10 h-10 rounded-full bg-emerald-100 flex items-center justify-center flex-shrink-0">
+                          <Award className="w-5 h-5 text-emerald-600" />
                         </div>
-                        <div className="badge badge-green text-[10px]">Verified ✓</div>
+                        <div className="min-w-0 flex-1">
+                          <div className="font-bold text-slate-900 text-sm truncate">{cert.course_title}</div>
+                          <div className="text-xs font-medium text-slate-500 mt-1 font-mono">{cert.certificate_id}</div>
+                        </div>
                       </div>
                     ))}
                   </div>
                 </div>
               )}
-            </div>
 
-            {/* Right Column (1/3) */}
-            <div className="space-y-6">
-              {/* Skill Profile */}
-              <div className="card">
-                <div className="flex items-center justify-between mb-4">
-                  <h2 className="font-bold text-slate-800 text-base">💪 Skill Profile</h2>
-                  <Link href="/dashboard/trainee/profile" className="text-xs font-semibold hover:underline" style={{ color: '#1b4f8a' }}>
-                    View All →
-                  </Link>
-                </div>
-                {data.skills.slice(0, 6).map(skill => (
-                  <SkillBar key={skill.name} {...skill} />
-                ))}
-              </div>
-
-              {/* Notifications */}
-              <div className="card">
-                <div className="flex items-center justify-between mb-4">
-                  <h2 className="font-bold text-slate-800 text-base">🔔 Notifications</h2>
-                  {unread > 0 && <div className="badge badge-orange">{unread} new</div>}
-                </div>
-                <div className="space-y-2">
-                  {data.notifications.slice(0, 5).map(notif => (
-                    <div key={notif.id}
-                      className="p-3 rounded-xl border text-sm"
-                      style={{
-                        borderColor: '#e2e8f0',
-                        backgroundColor: !notif.is_read ? (
-                          notif.type === 'success' ? '#f0fdf4' : notif.type === 'warning' ? '#fffbeb' : '#eff6ff'
-                        ) : '#f8fafc'
-                      }}>
-                      <div className="font-semibold text-slate-800 text-xs mb-0.5">{notif.title}</div>
-                      <div className="text-xs text-slate-500 leading-relaxed">{notif.message}</div>
-                    </div>
-                  ))}
-                </div>
-              </div>
-
-              {/* Quick Links */}
-              <div className="card">
-                <h2 className="font-bold text-slate-800 text-base mb-4">⚡ Quick Actions</h2>
+              {/* Quick Actions */}
+              <div className="bg-white border border-slate-200 rounded-3xl p-6 shadow-sm">
+                <h2 className="text-lg font-bold text-slate-900 mb-4">Quick Actions</h2>
                 <div className="space-y-2">
                   {[
-                    { href: '/dashboard/trainee/attendance', icon: '📷', label: 'Mark Attendance', color: '#1b4f8a' },
-                    { href: '/dashboard/trainee/assessment', icon: '📋', label: 'Take Assessment', color: '#15803d' },
-                    { href: '/dashboard/trainee/employment', icon: '💼', label: 'Browse Jobs', color: '#ea580c' },
-                    { href: '/dashboard/trainee/ai-advisor', icon: '🤖', label: 'Ask AI Advisor', color: '#7c3aed' },
+                    { href: '/dashboard/trainee/attendance', icon: QrCode, label: 'Scan QR Attendance', bg: 'bg-slate-100 text-slate-700' },
+                    { href: '/dashboard/trainee/assessment', icon: ClipboardList, label: 'Pending Assessments', bg: 'bg-slate-100 text-slate-700' },
+                    { href: '/dashboard/trainee/employment', icon: Briefcase, label: 'Browse Job Matches', bg: 'bg-slate-100 text-slate-700' },
                   ].map(action => (
-                    <Link key={action.href} href={action.href}
-                      className="flex items-center gap-3 p-2.5 rounded-xl border hover:shadow-sm transition-all"
-                      style={{ borderColor: '#e2e8f0' }}>
-                      <span className="text-lg">{action.icon}</span>
-                      <span className="text-sm font-medium text-slate-700 flex-1">{action.label}</span>
-                      <ChevronRight className="w-3.5 h-3.5 text-slate-400" />
+                    <Link key={action.label} href={action.href} className="flex items-center gap-3 p-3 rounded-xl border border-slate-200 hover:border-slate-300 hover:bg-slate-50 transition-all group">
+                      <div className={`w-8 h-8 rounded-lg flex items-center justify-center ${action.bg}`}>
+                        <action.icon className="w-4 h-4" />
+                      </div>
+                      <span className="text-sm font-semibold text-slate-700 flex-1">{action.label}</span>
+                      <ChevronRight className="w-4 h-4 text-slate-300 group-hover:text-slate-500" />
                     </Link>
                   ))}
                 </div>
               </div>
+
             </div>
           </div>
-        </div>
+        </main>
       </div>
     </div>
   );

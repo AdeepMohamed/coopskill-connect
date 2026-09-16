@@ -84,7 +84,7 @@ export default function EmploymentPage() {
           </div>
           <div className="badge badge-purple text-xs">
             <Bot className="w-3 h-3 inline mr-1" />
-            Gemini AI Matching
+            CoopSkill AI Matching
           </div>
         </div>
 

@@ -132,7 +132,7 @@ export default function LandingPage() {
           <div className="grid md:grid-cols-3 gap-8">
             {[
               { title: 'Offline-First LMS', icon: BookOpen, desc: 'Raspberry Pi edge nodes ensure training continues even without internet connectivity in remote areas.' },
-              { title: 'Gemini AI Advisor', icon: Network, desc: 'Personalized career guidance, skill gap analysis, and intelligent job matching powered by AI.' },
+              { title: 'CoopSkill AI Advisor', icon: Network, desc: 'Personalized career guidance, skill gap analysis, and intelligent job matching powered by AI.' },
               { title: 'Verified Certification', icon: ShieldCheck, desc: 'Blockchain-backed certificates instantly synced with DigiLocker for tamper-proof verification.' }
             ].map((feat, idx) => (
               <div key={idx} className="p-8 rounded-3xl bg-slate-50 border border-slate-100 hover:shadow-xl hover:shadow-slate-200/50 transition-shadow">
